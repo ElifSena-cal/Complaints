@@ -1,0 +1,114 @@
+﻿@model complaint.Models.Complaints
+
+@{
+    Layout = null;
+}
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+    <!-- Bootstrap CSS -->
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Style -->
+    <link href="~/assets/css/styleComplaint.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.5.0.js"></script>
+    <title>Şikayet Yazma</title>
+</head>
+<body>
+
+
+
+    <div class="content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+
+                            <h3 class="heading mb-4">Şikayetini Yaz</h3>
+                            <p>Şikayetinizi yazın. Çözüme en kısa sürede ulaşın!</p>
+
+                            <p><img src="~/assets/img/undraw-contact.svg" alt="Image" class="img-fluid"></p>
+
+
+                        </div>
+                        @using (Html.BeginForm("WriteaComplaint", "Complaint", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+
+                            <div class="col-md-12">
+
+                                <form class="mb-5" method="post" id="contactForm" name="contactForm">
+                                    @Html.Hidden("id", Request.Cookies["user"].Value)
+                                    @Html.AntiForgeryToken()
+
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <div class="row">
+
+                                        <div class="col-md-12 form-group">
+                                            <label>Başlık</label>  @Html.ValidationMessageFor(x => x.ComplaintTitle, "", new { @class = "text-danger" })
+                                            @Html.TextBoxFor(x => x.ComplaintTitle, new { @class = "form-control", style = "border-radius:15px", id = "titletxt" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label>Marka</label>
+
+                                            @Html.DropDownListFor(x => x.CompanyID, (List<SelectListItem>)ViewBag.vlu1, new { @class = "form-control", id = "select" })
+
+                                        </div>
+
+                                        <input id="other" name="other" class="alert-dismissible" style="display:none; margin-left:15px;border-radius:15px " />
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label>Belge</label>
+                                            <input type="file" class="form-control" name="document">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label>Şikayet Detayı</label>  @Html.ValidationMessageFor(x => x.ComplainDetail, "", new { @class = "text-danger" })
+                                            @Html.TextAreaFor(x => x.ComplainDetail, new { @class = "form-control", style = "border-radius:15px;height:150px", id = "detailtxt" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-success btn-block" id="BtnSave">Gönder</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            $('select').change(function () {
+                if ($('select option:selected').text() == "Diğer") {
+                    $('#other').show();
+                }
+                else {
+                    $('#other').hide();
+                }
+            });
+        });</script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+</html>
+

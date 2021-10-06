@@ -1,0 +1,88 @@
+﻿
+@model complaint.Models.ModelView
+@{
+    ViewBag.Title = "BrandDetail";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+<section id="facts" style="background-color:white;">
+
+
+    <div class="col-md-12" id="brand-page-design">
+
+        <div class="brand-detail-box">
+            <div class="ico-wrap">
+                <img class=" img" decoding="auto" alt="@Model.Companies.CompanyName" src="@Model.Companies.CompanyLogo">
+            </div>
+            <div class="text-wrap vcenter">
+                <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5">@Model.Companies.CompanyName</h2>
+
+            </div>
+            <div style="width: 500px;">
+
+                <table class="table">
+
+                    <tbody>
+                        <tr>
+                            <th scope="row">Şikayet Sayısı</th>
+                            <td>@Model.Companies.TotalComplaint</td>
+
+
+                        </tr>
+
+                        <tr>
+                            <th scope="row">Çözülenler</th>
+                            <td> @Model.Companies.Dissolved</td>
+
+                        </tr>
+                        @if (Model.Companies.WebUrl != null)
+                        {
+                            <tr>
+                                <th scope="row">Web-Url</th>
+                                <td> @Model.Companies.WebUrl</td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <h2 class="complaint-title">@Model.Companies.TotalComplaint şikayet</h2>
+    <hr />
+
+    <div class="complaint">
+        <div class="row">
+            
+                @foreach (var a in Model.Complaints)
+                {
+
+                <div class="col-md-6">
+                    <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+                        <div class="bg-white p-2">
+                            <div class="d-flex flex-row user-info">
+                                <img class="rounded-circle" src="@a.User.UserImage" width="40">
+                                <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">@a.User.UserNameSurname</span><span class="date text-black-50">@a.Date</span></div>
+                            </div>
+                            <div class="mt-2">
+                                <p class="comment-text" style="word-break:break-word">@a.ComplainDetail</p>
+                            </div>
+
+
+                            <div class="bg-white">
+                                <div class="d-flex flex-row fs-12">
+                                  
+                                    <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1"> <a href="/Complaint/GetComplaintDetail/@a.ComplaintID" style="color:#666666">Yorum Yap</a></span></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             
+            }
+            </div>
+        </div>
+    </section>
+

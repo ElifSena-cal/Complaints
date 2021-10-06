@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/_BrandLayout.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
+
+
+<div class="grey-bg container-fluid">
+    <section id="minimal-statistics">
+        <div class="row">
+            <div class="col-12 mt-3 mb-1">
+                <h4 class="text-uppercase">Genel Bilgilendirme</h4>
+                <p></p>
+            </div>
+        </div>
+    </section>
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <i class="icon-pencil primary font-large-2 float-left"></i>
+                            </div>
+                            <div class="media-body text-right">
+                                <h3>@ViewBag.totalComplaint</h3>
+                                <span>Şikayet</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+    <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="media d-flex">
+                            <div class="media-body text-left">
+                                <h3 class="danger">@ViewBag.totalSolution</h3>
+                                <span>Çözüme Ulaşan Şikayet</span>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="icon-rocket danger font-large-2 float-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

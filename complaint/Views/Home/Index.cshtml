@@ -1,0 +1,116 @@
+﻿@model complaint.Models.Company
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/_HomeLayout.cshtml";
+}
+
+
+
+
+<section id="hero">
+    <div class="hero-container">
+        <h1></h1>
+        <h2>Çözüm İçin Şikayet Var</h2>
+        @if (User.IsInRole("User"))
+        {
+            <a href="/Complaint/WriteaComplaint/" class="btn-get-started" id="myBtn">Şikayet Yaz</a>
+        }
+        else
+        {
+            <h5 style="color:white">Şikayetinizi Yazmak için Üye Olunuz</h5>
+        }
+
+    </div>
+</section><!-- #hero -->
+<section id="facts">
+    <div class="container wow fadeIn">
+        <div class="section-header">
+            <p class="section-description" style="font-size: 40px;">Sayılarla Şikayetvar</p>
+        </div>
+        <div class="row counters">
+            <div class="col-lg-4 col-4 text-center">
+                <span data-toggle="counter-up">@ViewBag.v1</span>
+                <p>Bireysel Üye Sayısı</p>
+            </div>
+            <div class="col-lg-4 col-4 text-center">
+                <span data-toggle="counter-up">@ViewBag.v2</span>
+                <p>Kayıtlı Marka</p>
+            </div>
+            <div class="col-lg-4 col-4 text-center">
+                <span data-toggle="counter-up">@ViewBag.v3</span>
+                <p>Çözülen Şikayet</p>
+            </div>
+        </div>
+    </div>
+</section><!-- #facts -->
+<!--==========================
+ Call To Action Section
+ ============================-->
+<section id="call-to-action">
+    <div class="container wow fadeIn">
+        <div class="row">
+            <div class="col-lg-9 text-center text-lg-left">
+                <h3 class="cta-title">Tüketici deneyimi, sizin markanız</h3>
+                <p class="cta-text">
+                    Olumsuz alışveriş deneyimi yaşayan müşteriler, bu süreci 250 kişiyle paylaşıyor.
+                    Müşteri odaklı kültürün parçası olmak ve mutlu müşteriler yaratmak için:
+                </p>
+            </div>
+            <div class="col-lg-3 cta-btn-container text-center">
+                <a class="cta-btn align-middle" href="#" data-toggle="modal" data-target="#takıl">Birlikte Çalışalım</a>
+            </div>
+        </div>
+    </div>
+
+</section><!-- #call-to-action -->
+<!---BrandSignUp--->
+<div class="modal fade" id="takıl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Marka Profili Oluştur</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("BrandRequest", "Home", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <form action="kaydet.php" method="POST">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.AntiForgeryToken()
+                        <label>Ad-Soyad</label>  @Html.ValidationMessageFor(x => x.NameSurname, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(x => x.NameSurname, new { @class = "form-control", style = "border-radius:15px" })
+
+                        <br />
+                        <label>Şirket</label>   @Html.ValidationMessageFor(x => x.CompanyName, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(x => x.CompanyName, new { @class = "form-control", style = "border-radius:15px" })
+
+                        <br />
+                        <label>Telefon</label>  @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control", style = "border-radius:15px" })
+
+                        <br />
+                        <label>E-Mail</label>  @Html.ValidationMessageFor(x => x.EPosta, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(x => x.EPosta, new { @class = "form-control", style = "border-radius:15px", type = "email" })
+
+                        <br />
+                        <label>Web Sitesi</label>
+                        @Html.TextBoxFor(x => x.WebUrl, new { @class = "form-control", style = "border-radius:15px" })
+
+                        <br>
+                        <button type="submit" class="btn btn-success btn-block" style="border-radius:30px">Üye OL</button>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+

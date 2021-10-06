@@ -1,0 +1,90 @@
+﻿@model complaint.Models.User
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-3.5.0.js"></script>
+<div class="container" style="margin-top:10%">
+    @using (Html.BeginForm("UpdateUserProfile", "Account", FormMethod.Post,new { enctype="multipart/form-data"}))
+    {
+       
+        @Html.HiddenFor(a=>a.UserID)
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="@Model.UserImage"class="rounded-circle p-1 bg-primary" width="110">
+                            <div class="mt-3">
+
+                                <h4>@Model.UserNameSurname</h4>
+                                <p>Profil Resmini Değiştir</p>
+                                <input type="file" class="form-control" name="document" accept=".png,.jpg,.jpeg,.tif">
+
+                            </div>
+                        </div>
+
+
+                        <hr class="my-4">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Ad-Soyad</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @Html.TextBoxFor(x => x.UserNameSurname, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">E-mail</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @Html.TextBoxFor(x => x.EMail, new { @class = "form-control", type = "email" })
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Şifre</h6>
+
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                @Html.TextBoxFor(x => x.UserPassword, new { @class = "form-control", type = "password", id = "password", name = "password" })
+
+
+                            </div>
+                            <i class="fa fa-eye parola " onclick="togglePassword()" style="margin-left:95%"></i>
+                        </div>
+                            <div class="row">
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-9 text-secondary">
+                                    <button class="btn btn-primary px-4">Değişiklikleri Kaydet</button>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+<script>
+    function togglePassword() {
+        var element = document.getElementById('password');
+        element.type = (element.type == 'password' ? 'text' : 'password');
+    }
+</script>
+
+
+
+
+
+
+
+

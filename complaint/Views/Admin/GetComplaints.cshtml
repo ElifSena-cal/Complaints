@@ -1,0 +1,41 @@
+﻿@using complaint.Models
+@model List<Complaints>
+@{
+    ViewBag.Title = "GetComplaints";
+    Layout = "~/Views/Layout/_AdminLayout.cshtml";
+}
+
+<div class="card mb-4">
+    <div class="card-header">Şikayetler</div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Ad-Soyad</th>
+
+                        <th>Başlık</th>
+                        <th>Şikayet Detayı</th>
+                        <th>Marka İsmi</th>
+                        <th>Detay</th>
+
+                    </tr>
+                </thead>
+            
+                <tbody>
+                    @foreach (var a in Model)
+                    {
+                        <tr>
+                            <td>@a.User.UserNameSurname</td>
+                            <td>@a.ComplaintTitle</td>
+                            <td>@a.ComplainDetail</td>
+                            <td>@a.Company.CompanyName</td>
+                            <td><a href="/Admin/GetComplaintDetailAdmin/@a.ComplaintID" class="btn btn-success">Detay</a></td>
+                        </tr>
+                    }
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

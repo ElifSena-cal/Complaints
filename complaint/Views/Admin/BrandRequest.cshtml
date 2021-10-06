@@ -1,0 +1,48 @@
+﻿@using complaint.Models
+@model List<Company>
+@{
+    ViewBag.Title = "BrandRequest";
+    Layout = "~/Views/Layout/_AdminLayout.cshtml";
+}
+
+<div class="card mb-4">
+    <div class="card-header">Markalar</div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Ad-Soyad</th>
+
+                        <th>Marka Adı</th>
+                        <th>Telefon Numarası</th>
+                        <th>E-Posta</th>
+                        <th>Web Sitesi</th>
+                        <th>Toplam Şikayet</th>
+                        <th>Çözülen</th>
+                        <th>Logo</th>
+                        <th>Onayla</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var a in Model)
+                    {
+                    <tr>
+                        <td>@a.NameSurname</td>
+                        <td>@a.CompanyName</td>
+                        <td>@a.PhoneNumber</td>
+                        <td>@a.EPosta</td>
+                        <td>@a.WebUrl</td>
+                        <td>@a.TotalComplaint.ToString()</td>
+                        <td>@a.Dissolved</td>
+                        <td><img src="@a.CompanyLogo" class="rounded-circle p-1 bg-primary" width="110"></td>
+                        <td><a href="/Admin/ApproveBrand/@a.CompanyID" class="btn btn-success">Şirketi Onayla</a></td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <a href="/Admin/AddCompany" class="btn btn-info">Yeni Marka</a></div>
+    </div>
+

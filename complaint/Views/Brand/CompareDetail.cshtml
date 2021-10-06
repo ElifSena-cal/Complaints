@@ -1,0 +1,75 @@
+﻿@using complaint.Models
+@model IEnumerable<Company>
+
+@{
+    ViewBag.Title = "CompareDetail";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+
+
+
+
+<section id="complaint-detail" style="background-color:white;">
+    <h2 class="complaint-title"><a href="/Brand/BrandDetail/@Model.First().CompanyID">@Model.First().CompanyName</a> ile <a href="/Brand/BrandDetail/@Model.Last().CompanyID"> @Model.Last().CompanyName</a> karşılaştırılıyor.</h2>
+    <hr />
+    <h2 class="complaint-title">Markalar</h2>
+</section>
+
+
+<div class="container">
+
+
+    <div class="row mbr-justify-content-center">
+        <div class="col-lg-3">
+
+            <div class="compare-detail-box">
+                <div class="ico-wrap">
+                    <img class=" img"  decoding="auto" alt="@Model.First().CompanyName " src="@Model.First().CompanyLogo ">
+                </div>
+                <div class="text-wrap vcenter">
+                    <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5">
+                        <a href="/Brand/BrandDetail/@Model.First().CompanyID" style="color: dimgray">@Model.First().CompanyName </a>
+</h2>
+
+</div>
+
+</div>
+</div>
+<div class="col-lg-3">
+    <div class="compare-detail-box">
+        <div class="ico-wrap">
+            <img class=" img" decoding="auto" alt="@Model.Last().CompanyName" src="@Model.Last().CompanyLogo">
+        </div>
+        <div class="text-wrap vcenter">
+            <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5"><a href="/Brand/BrandDetail/@Model.Last().CompanyID" style="color:dimgray">@Model.Last().CompanyName </a></h2>
+
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+<h2 class="complaint-title">Genel Bakış</h2>
+<div class="container" style="margin-top: 3%;">
+
+    <table class="table">
+
+        <tbody>
+            <tr>
+                <th scope="row">Şikayet Sayısı</th>
+                <td>@Model.First().TotalComplaint</td>
+                <td>@Model.Last().TotalComplaint</td>
+
+            </tr>
+
+
+            <tr>
+                <th scope="row">Çözülenler</th>
+                <td>@Model.First().Dissolved</td>
+                <td>@Model.Last().Dissolved</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

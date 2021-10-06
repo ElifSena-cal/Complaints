@@ -1,0 +1,40 @@
+﻿@using complaint.Models
+@model List<Comment>
+@{
+    ViewBag.Title = "GetComment";
+    Layout = "~/Views/Layout/_AdminLayout.cshtml";
+}
+<div class="card mb-4">
+    <div class="card-header">Şikayetler</div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Ad-Soyad</th>
+
+                       
+                        <th>Yorum Detayı</th>
+                   
+                        <th>Yorum Yapılan Şikayet Detay</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var a in Model)
+                    {
+                        <tr>
+                            <td>@a.User.UserNameSurname</td>
+                            <td>@a.Text</td>
+                       
+                           
+                            <td><a href="/Admin/GetComplaintDetailAdmin/@a.ComplaintID" class="btn btn-success"> Yorum Yapılan Şikayet Detay</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

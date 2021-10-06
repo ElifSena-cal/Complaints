@@ -1,0 +1,150 @@
+﻿@using complaint.Models
+@model List<Complaints>
+@{
+    ViewBag.Title = "GetComplaintDetail";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+<link href="~/assets/css/styleComplaint.css?v=1" rel="stylesheet" />
+@foreach (var a in Model)
+{
+    <section id="facts" style="background-color:white;">
+        <h2 class="complaint-title">@a.ComplaintTitle</h2>
+        <hr />
+     </section>
+
+
+    <div class="container">
+        <div class="be-comment-block">
+
+            <div class="be-comment">
+                <div class="be-img-comment">
+
+                    <img src="@a.User.UserImage" alt="" class="be-ava-comment">
+
+                </div>
+                <div class="be-comment-content">
+
+                    <span class="be-comment-name">
+                        <a href="blog-detail-2.html">@a.User.UserNameSurname</a>
+                    </span>
+                    <span class="be-comment-time">
+                        <i class="fa fa-clock-o"></i>
+                        @a.Date
+                    </span>
+
+                    <p class="be-comment-text" style="word-break:break-word">
+                        @a.ComplainDetail
+                        @if (a.Document != null)
+                        {
+                            <div class="img-rounded">
+                                <img src="@a.Document" alt="" class="w3-imag" style="width:500px;height:400px">
+                            </div>
+                        }
+                    </p>
+
+
+
+
+
+
+                </div>
+            </div>
+
+            @if (ViewBag.companyName != null)
+            {
+
+                <div class="be-comment">
+                    <div class="be-img-comment">
+                        <a href="blog-detail-2.html">
+                            <img src="@ViewBag.CompanyLogo" alt="" class="be-ava-comment">
+                        </a>
+                    </div>
+                    <div class="be-comment-content">
+                        <span class="be-comment-name">
+                            <a href="blog-detail-2.html">@ViewBag.companyName</a>
+                        </span>
+
+                        <p class="be-comment-text" style="word-break:break-word">
+                            @ViewBag.CompanyAnswerText
+                        </p>
+                    </div>
+                </div>
+            }
+            @if (@ViewBag.UserCommentName != null)
+            {
+                {
+                    int i = 0;
+                    foreach (var UserText in ViewBag.CommentText)
+                    {
+
+
+
+
+                        <div class="be-comment">
+                            <div class="be-img-comment">
+                                <a href="blog-detail-2.html">
+                                    <img src="@ViewBag.UserImage[@i]" alt="" class="be-ava-comment">
+                                </a>
+                            </div>
+
+                            <div class="be-comment-content">
+                                <span class="be-comment-name">
+
+                                    <a href="blog-detail-2.html">@ViewBag.UserCommentName[@i]</a>
+
+                                </span>
+
+                                <p class="be-comment-text" style="word-break:break-word">
+                                    @UserText
+                                </p>
+                            </div>
+                        </div>
+                        i = i + 1;
+                    }
+
+                }
+
+
+            }
+
+
+            @if (User.IsInRole("User"))
+            {
+                using (Html.BeginForm("WriteaComments", "Complaint", FormMethod.Post))
+                {
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.Hidden("idUser", Request.Cookies["user"].Value)
+                    }
+
+                    @Html.Hidden("id2", a.ComplaintID)
+                    <form class="form-block">
+                        <div class="row">
+
+                            <div class="form-group">
+                                @Html.TextArea("text", new { @class = "form-control", cols = "130", style = "margin-left:5%; height:120px;", placeholder = "Yorumunuz", id = "txtInput" })
+                            </div>
+
+
+                            <button class="btn btn-primary pull-right" style="margin-left:92%;" id="btnInput">Gönder</button>
+                        </div>
+                    </form>
+
+
+                }
+
+
+            }
+
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+
+

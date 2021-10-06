@@ -1,0 +1,42 @@
+﻿@model complaint.Models.Company
+@{
+    ViewBag.Title = "AddCompany";
+    Layout = "~/Views/Layout/_AdminLayout.cshtml";
+}
+
+<div style="margin-left:20px">
+    <br />
+    <h2>Yeni Marka Sayfası</h2>
+    <hr />
+
+    @using (Html.BeginForm("AddCompany", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {@Html.AntiForgeryToken()
+<form action="kaydet.php" method="POST">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <label>Ad-Soyad</label>  @Html.ValidationMessageFor(x => x.NameSurname, "", new { @class = "text-danger" })
+    @Html.TextBoxFor(x => x.NameSurname, new { @class = "form-control", style = "border-radius:15px" })
+
+    <br />
+    <label>Şirket</label>   @Html.ValidationMessageFor(x => x.CompanyName, "", new { @class = "text-danger" })
+    @Html.TextBoxFor(x => x.CompanyName, new { @class = "form-control", style = "border-radius:15px" })
+
+    <br />
+    <label>Telefon</label>  @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger" })
+    @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control", style = "border-radius:15px" })
+
+    <br />
+    <label>E-Mail</label>  @Html.ValidationMessageFor(x => x.EPosta, "", new { @class = "text-danger" })
+    @Html.TextBoxFor(x => x.EPosta, new { @class = "form-control", style = "border-radius:15px", type = "email" })
+
+    <br />
+    <label>Logo</label>
+    <input type="file" class="form-control" name="document">
+
+    <br />
+
+    <button type="submit" class="btn btn-success" style="border-radius:30px">Kaydet</button>
+</form>
+}
+
+</div>

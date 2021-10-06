@@ -1,0 +1,43 @@
+﻿@model complaint.Models.Complaints
+@{
+    ViewBag.Title = "AnsweredComplaintDetail";
+    Layout = "~/Views/Layout/_BrandLayout.cshtml";
+}
+
+<br />
+<div style="margin-left:15px">
+    <h2>Şikayet Detayı</h2>
+    <hr />
+    @using (Html.BeginForm("CompanySpecificComplaint", "BrandPanel", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.ComplaintID)
+        <label class="carousel-inner" style="color:darkslateblue">Ad-Soyad</label>
+        @Html.TextBoxFor(x => x.User.UserNameSurname, new { @class = "form-control" })
+        <br />
+        <label class="carousel-inner" style="color:darkslateblue">Başlık</label>
+        @Html.TextBoxFor(x => x.ComplaintTitle, new { @class = "form-control" })
+        <br />
+        <label class="carousel-inner" style="color:darkslateblue">Şikayet Tarihi</label>
+        @Html.TextBoxFor(x => x.Date, new { @class = "form-control" })
+
+        <br />
+        if (Model.Document != null)
+        {
+            <label class="carousel-inner" style="color:darkslateblue">Dökümantasyon</label>
+            <div class="img-rounded">
+                <img src="a.Document" alt="" class="w3-imag" style="width:500px;height:400px">
+            </div>
+            <br />
+        }
+
+        <label class="carousel-inner" style="color:darkslateblue">Detay</label>
+        @Html.TextAreaFor(x => x.ComplainDetail, new { @class = "form-control", style = "height:150px" })
+        <br />
+
+        <label class="carousel-inner" style="color:darkslateblue">Cevap</label>
+       <input class="form-control" value="@ViewBag.Answer" />
+
+
+    }
+</div>
+

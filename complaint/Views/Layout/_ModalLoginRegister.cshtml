@@ -1,0 +1,148 @@
+﻿@model complaint.Models.ModelView
+<!--Modal: Login / Signup Form-->
+<!--Signup-->
+<div class="modal fade" id="SignUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Üye Ol</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            
+            @using (Html.BeginForm("SignUp", "Account", FormMethod.Post))
+            {
+
+                <div class="modal-body">
+                    <form action="kaydet.php" method="POST">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <label>Ad-Soyad </label> @Html.ValidationMessageFor(x => x.User.UserNameSurname, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(x=>x.User.UserNameSurname,new { @class = "form-control", style = "border-radius:15px" })
+                        <label>E-Mail </label> @Html.ValidationMessageFor(x => x.User.EMail, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(x => x.User.EMail, new { @class = "form-control", style = "border-radius:15px", type = "email" })
+                        <label>Şifre </label>  @Html.ValidationMessageFor(x => x.User.UserPassword, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(x => x.User.UserPassword, new { @class = "form-control", style = "border-radius:15px", type = "password" })
+                        <br>
+                        <button type="submit" class="btn btn-success btn-block">
+                            Üye OL
+                        </button>
+                    </form>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+<!--Login-->
+<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Üye Giriş</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+
+            @using (Html.BeginForm("Logın", "Account", FormMethod.Post))
+            {
+
+                <div class="modal-body">
+
+                    <form action="giris.php" method="POST">
+                        <div class="form-group">
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(x => x.User.UserID)
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <label>E-Mail</label>
+                            @Html.TextBoxFor(x => x.User.EMail, new { @class = "form-control", style = "border-radius:15px", type = "email", id = "username" })
+                        </div>
+                        <div class="form-group">
+                            <label>Şifre</label>
+                            @Html.TextBoxFor(x => x.User.UserPassword, new { @class = "form-control", style = "border-radius:15px", type = "password", id = "password" })
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block" style="border-radius:30px" id="loginError">Giriş Yap</button>
+                        </div>
+                        @ViewBag.Message
+                        <div class="form-group">
+                            Hesabınız yok mu ?<a href="SignUp" data-toggle="modal" data-target="#SignUp" data-dismiss="modal" class="btn btn-link"><span aria-hidden="true">Üye Ol</span></a>
+                            <a href="#" data-toggle="modal" data-target="#ForgetPassword" data-dismiss="modal" class="btn btn-link" style="margin-left: 15%;">Şifremi Unuttum</a>
+                        </div>
+                    </form>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<!--ForgetPassword-->
+<div class="modal fade" id="ForgetPassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Şifremi Unuttun</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            @using (Html.BeginForm("PasswordReset", "Account"))
+            {
+                @Html.HiddenFor(x => x.User.UserID)
+                <div class="modal-body">
+                    <form action="#" method="POST">
+                        <label>Şifre yenileme için giriş yaptığınız e-posta adresini giriniz.</label>
+                        @Html.TextBoxFor(x => x.User.EMail, new { @class = "form-control", style = "border-radius:15px", type = "email" })
+                        <br>
+                        <button class="btn btn-success btn-block" style="border-radius:30px">Devam Et</button>
+                    </form>
+                </div>}
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="Companylogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Marka Girişi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("Index", "BrandPanel", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.Companies.CompanyID)
+                <div class="modal-body">
+
+                    <form action="giris.php" method="POST">
+                        <div class="form-group">
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <label>E-Mail</label>
+                            @Html.TextBoxFor(x => x.Companies.EPosta, new { @class = "form-control", style = "border-radius:15px", type = "email", id = "EPosta" })
+                        </div>
+                        <div class="form-group">
+                            <label>Şifre</label>
+                            @Html.TextBoxFor(x => x.Companies.CompanyPassword, new { @class = "form-control", style = "border-radius:15px", type = "password", id = "CompanyPassword" })
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block" style="border-radius:30px">Giriş Yap</button>
+                        </div>
+                    </form>
+                </div>
+            }
+
+
+
+        </div>
+    </div>
+</div>

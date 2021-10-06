@@ -1,0 +1,18 @@
+﻿
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    @RenderPage("~/Views/Layout/_Head.cshtml")
+</head>
+
+<body>
+    <!--Header-->
+    @RenderPage("~/Views/Layout/_Header.cshtml")
+    <!--Modal: Login / Register Form-->
+    @RenderPage("~/Views/Layout/_ModalLoginRegister.cshtml")
+    <main id="main">
+        @RenderBody()
+    </main>
+    @RenderPage("~/Views/Layout/_Footer.cshtml")
+</body>
+</html>

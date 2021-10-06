@@ -1,0 +1,76 @@
+﻿@model complaint.Models.Complaints
+@{
+    ViewBag.Title = "CompanySpecificComplaint";
+    Layout = "~/Views/Layout/_BrandLayout.cshtml";
+}
+<br />
+<div style="margin-left:15px">
+    <h2>Şikayet Detayı</h2>
+    <hr />
+    @using (Html.BeginForm("CompanySpecificComplaint", "BrandPanel", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.ComplaintID)
+        <label class="carousel-inner" style="color:darkslateblue">Ad-Soyad</label>
+        @Html.TextBoxFor(x => x.User.UserNameSurname, new { @class = "form-control" })
+        <br />
+        <label class="carousel-inner" style="color:darkslateblue">Başlık</label>
+        @Html.TextBoxFor(x => x.ComplaintTitle, new { @class = "form-control" })
+        <br />
+        <label class="carousel-inner" style="color:darkslateblue">Şikayet Tarihi</label>
+        @Html.TextBoxFor(x => x.Date, new { @class = "form-control" })
+        <br />
+
+        if (Model.Document != null)
+        {
+            <label class="carousel-inner" style="color:darkslateblue">Dökümantasyon</label>
+            <div class="img-rounded">
+                <img src="a.Document" alt="" class="w3-imag" style="width:500px;height:400px">
+            </div>
+            <br />
+        }
+
+        <label class="carousel-inner" style="color:darkslateblue">Detay</label>
+        @Html.TextAreaFor(x => x.ComplainDetail, new { @class = "form-control", style = "height:150px" })
+        <br />
+
+
+
+
+    }
+</div>
+<button class="btn btn-danger" data-toggle="modal" data-target="#aa" style="margin-left:15px">Cevapla</button>
+<br />
+<div class="modal fade" id="aa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cevapla</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("ReplytoComplaint", "BrandPanel", FormMethod.Post))
+            {<div class="modal-body">
+
+                    <form action="kaydet.php" method="POST">
+                        @Html.Hidden("ComplaintID", Model.ComplaintID)
+                        @Html.Hidden("CompanyID", Model.CompanyID)
+
+
+                        <textarea class="form-control" id="detailtxt" name="detailtxt" rows="3"></textarea>
+
+
+
+                    </form>   <br /> <button class="btn btn-warning">Cevapla</button>
+                </div>
+
+
+
+
+            }
+        </div>
+    </div>
+</div>
+
+
+

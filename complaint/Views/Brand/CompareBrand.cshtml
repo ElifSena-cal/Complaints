@@ -1,0 +1,125 @@
+﻿@using complaint.Models
+@model IEnumerable<Company>
+
+
+@{
+    ViewBag.Title = "CompareBrand";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+<section id="facts" style="background-color:white;">
+    <div class="row">
+        <div class=" col-md-11" id="compar-page-design">
+            <div class="card flex-md-row" style="background-color:#172b4d;border-radius: 30px;">
+                <div class="card-body  align-items-start">
+                    <h1 class="col-md-auto" style="color:white;">Marka Karşılaştırması</h1>
+                    @using (Html.BeginForm("CompareDetail", "Brand", FormMethod.Post))
+                    {<form class="content">
+                            <div class="row">
+
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+
+                                        <input type="text" class="form-control" placeholder="1.Marka" id="brandName1" name="brandName1" />
+                                        <input type="hidden" id="hfCustomer" name="CompanyID" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="2.Marka" id="brandName2" name="brandName2" />
+                                        <input type="hidden" id="hfCustomer" name="CompanyID" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <button class="btn btn-secondary" style="border-radius: 30px; background-color: #2dc997;width: 100%;" onclick="fun()"> Karşılaştır</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8" id="compar-page-design">
+            <h2 class="compare-list-title">Popüler karşılaştırmalar</h2>
+
+            <div class="container">
+                <div class="row mbr-justify-content">
+
+                    @foreach (var a in Model)
+                    {
+                        <div class="col-lg-6 float-left">
+
+                            <div class="wrap">
+
+                                <div class="ico-wrap">
+                                    <img class=" img" decoding="auto" alt="@a.CompanyName" src="@a.CompanyLogo">
+                                </div>
+                                <div class="text-wrap vcenter">
+                                    <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5">@a.CompanyName</h2>
+
+                                </div>
+
+
+
+
+                                @foreach (var b in Model.Take(1))
+                                {
+
+
+                                    {
+                                        string id = a.CompanyName + '-' + b.CompanyName;
+
+
+
+                                        <div class="ico-wrap">
+                                            <img class=" img" decoding="auto" alt="@b.CompanyName" src="@b.CompanyLogo">
+                                        </div>
+                                        <div class="text-wrap vcenter">
+                                            <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5">@b.CompanyName</h2>
+
+                                        </div>
+
+                                        <a class="btn btn-secondary" style="border-radius: 30px; background-color: #2dc997;width: 100%; color:white" href="/Brand/CompareDetail/@id"> Karşılaştır</a>
+
+
+                                    }
+
+                                }
+
+
+
+
+                            </div>
+
+
+
+
+                        </div>
+
+
+                    }
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+  
+</section>
+
+

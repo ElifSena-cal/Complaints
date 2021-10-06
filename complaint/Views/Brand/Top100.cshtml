@@ -1,0 +1,78 @@
+﻿@using complaint.Models
+@model IEnumerable<Company>
+@{
+    ViewBag.Title = "Top100";
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+<section id="facts" style="background-color:white;">
+    <h2 class="complaint-title">Trend 100, Türkiye’de en fazla çözüm bulan markaları listeler.</h2>
+    <hr />
+</section>
+
+<div class=" col-md-12">
+
+    <div class="row">
+        <div class="col">
+            <div class="card bg-default shadow">
+                <div class="card-header bg-transparent border-0">
+                    <h3 class="text-white mb-0">Trend 100</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-dark table-flush">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Sıra</th>
+                                <th scope="col">Marka</th>
+
+
+                                <th scope="col">Toplam Şikayet</th>
+
+
+
+                                <th scope="col">Çözülen Şikayet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @foreach (var a in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @a.CompanyID
+                                    </td>
+                                    
+                                    <th scope="row">
+                                        <div class="media align-items-center">
+                                            <a href="/Brand/BrandDetail/@a.CompanyID" class="avatar rounded-circle mr-3">
+                                                <img alt="@a.CompanyName" src="@a.CompanyLogo">
+                                            </a>
+                                            <div class="media-body">
+                                                <span class="mb-0 text-sm"> <a href="/Brand/BrandDetail/@a.CompanyID" style="color:white">@a.CompanyName</a> </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <td>
+                                        <span class="badge badge-dot mr-4">
+                                            @a.TotalComplaint
+                                        </span>
+                                    </td>
+                               
+                                    <td>
+                                        <span class="badge badge-dot mr-4">
+                                           @a.Dissolved
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   
+

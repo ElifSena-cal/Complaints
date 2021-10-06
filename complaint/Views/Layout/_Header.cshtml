@@ -1,0 +1,42 @@
+﻿
+<header id="header">
+    <div class="container">
+        <div id="logo" class="pull-left">
+            <h2><a href="/Home/Index/">İtirazım Var</a></h2>
+        </div>
+        <nav id="nav-menu-container">
+            <ul class="nav-menu">
+
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li><a href="/Complaint/Index/">Şikayetler</a></li>
+                    <li><a href="/Brand/CompareBrand/">Marka Karşılaştır</a></li>
+                    <li><a href="/Brand/Top100/">Trend 100</a></li>
+                    <li id="a">
+
+                        <div class="dropdown">
+                            <a hrefs="#" style="color:white">@User.Identity.Name</a>
+                            <div class="dropdown-content">
+                                <a href="/Account/UserProfile/@Request.Cookies["user"].Value">Profilim</a>
+                                <a href="/Complaint/UserSpecificComplaint/@Request.Cookies["user"].Value">Şikayetlerim</a>
+                                <a href="/Account/Logout">Çıkış</a>
+
+                            </div>
+                        </div>
+                    </li>
+                }
+
+                else
+                {
+                    <li><a href="/Complaint/Index/">Şikayetler</a></li>
+                    <li><a href="/Brand/CompareBrand/">Marka Karşılaştır</a></li>
+                    <li><a href="/Brand/Top100/">Trend 100</a></li>
+                    <li><a href="/Home/Index/" data-toggle="modal" data-target="#login">Giriş Yap / Üye Ol</a></li>
+                    <li><a href="/Brand/BrandPanel" data-toggle="modal" data-target="#Companylogin">Marka Girişi</a></li>
+                }
+
+            </ul>
+        </nav><!-- #nav-menu-container -->
+    </div>
+</header>

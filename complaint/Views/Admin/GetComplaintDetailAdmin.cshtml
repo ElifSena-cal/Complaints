@@ -1,0 +1,34 @@
+﻿@model complaint.Models.Complaints
+@{
+    ViewBag.Title = "GetComplaintDetailAdmin";
+    Layout = "~/Views/Layout/_AdminLayout.cshtml";
+}
+
+<br />
+<div style="margin-left:15px">
+    <h2>Şikayet Detayı</h2>
+    <hr />
+    @using (Html.BeginForm("UpdateComplaint", "Admin", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.ComplaintID)
+        <label class="carousel-inner" style="color:darkslateblue">Ad-Soyad</label>
+        @Html.TextBoxFor(x => x.User.UserNameSurname, new { @class = "form-control" })
+        <br />
+        <label class="carousel-inner" style="color:darkslateblue">Başlık</label>
+        @Html.TextBoxFor(x => x.ComplaintTitle, new { @class = "form-control" })
+        <br />
+        <label class="carousel-inner" style="color:darkslateblue">Şikayet Tarihi</label>
+        @Html.TextBoxFor(x => x.Date, new { @class = "form-control" })
+        <br />
+        <label class="carousel-inner" style="color:darkslateblue">Marka İsmi</label>
+        @Html.DropDownListFor(x => x.CompanyID, (List<SelectListItem>)ViewBag.vlu1, new { @class = "form-control" })
+        <br />
+        <label class="carousel-inner" style="color:darkslateblue">Detay</label>
+        @Html.TextAreaFor(x => x.ComplainDetail, new { @class = "form-control", style = "height:150px" })
+        <br />
+
+
+
+        <button class="btn btn-warning">Güncelle</button>
+}    </div>
+
