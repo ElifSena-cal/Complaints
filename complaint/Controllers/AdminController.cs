@@ -5,12 +5,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.Security;
 using complaint.Models;
 namespace complaint.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
+
         // GET: Admin
         Context c = new Context();
         public ActionResult Index()
@@ -40,12 +42,12 @@ namespace complaint.Controllers
                                            }).ToList();
             ViewBag.vlu1 = value1;
             var detail = c.Complaints.Where(a => a.ComplaintID == id).FirstOrDefault();
-            return View("GetComplaintDetailAdmin",detail);
+            return View("GetComplaintDetailAdmin", detail);
         }
         public ActionResult UpdateComplaint(Complaints complaints)
         {
             var com = c.Complaints.Find(complaints.ComplaintID);
-           
+
             com.ComplaintTitle = complaints.ComplaintTitle;
             com.Date = complaints.Date;
             com.CompanyID = complaints.CompanyID;
@@ -87,7 +89,7 @@ namespace complaint.Controllers
             var a = c.Comments.Find(id);
             a.Case = true;
             c.SaveChanges();
-            return RedirectToAction("CommentRequest");
+            return RedirectToAction("GetComment");
 
         }
         public ActionResult CommentRequest()
@@ -124,9 +126,9 @@ namespace complaint.Controllers
             var a = c.Companies.Where(b => b.CompanyID == id).FirstOrDefault();
             a.Case = true;
             c.SaveChanges();
-     
 
-            if ( a.EPosta!= null)
+
+            if (a.EMail != null)
             {
                 Random rnd = new Random();
                 int newPassword = rnd.Next();
@@ -137,8 +139,8 @@ namespace complaint.Controllers
                 WebMail.UserName = "elifsenacal99@gmail.com";
                 WebMail.Password = "ElifSena00.";
                 WebMail.SmtpPort = 587;
-                WebMail.Send(a.EPosta, "Giriş Şifreniz", "Şifreniz: " + newPassword);
-    
+                WebMail.Send(a.EMail, "Giriş Şifreniz", "Şifreniz: " + newPassword);
+
 
 
 
@@ -169,6 +171,12 @@ namespace complaint.Controllers
             c.Companies.Add(company);
             c.SaveChanges();
             return RedirectToAction("GetBrand");
+        }
+        public ActionResult AdminLogout()
+        {
+            Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Home", "Account");
         }
 
     }

@@ -49,88 +49,96 @@ namespace Complaint.Controllers
 
         public ActionResult WriteaComplaint(Complaints complaint, int id, string other)
         {
+            try
+            {
+                
 
-            if (ModelState.IsValid)
+
+                    if (Request.Files.Count > 0)
+                    {
+                        string fileName = Path.GetFileName(Request.Files[0].FileName);
+                        string _fileName = DateTime.Now.ToString("yymmssfff") + fileName;
+                        if (fileName != "")
+                        {
+                            string path = "~/Document/" + _fileName;
+                            Request.Files[0].SaveAs(Server.MapPath(path));
+                            complaint.Document = "/Document/" + _fileName;
+                        }
+
+                    }
+                    if (other != "")
+                    {
+                        Company company = new Company();
+                        company.CompanyName = other;
+
+
+                        c.Companies.Add(company);
+                        c.SaveChanges();
+
+                        complaint.CompanyID = company.CompanyID;
+
+                    }
+
+                    complaint.Date = DateTime.Now;
+                    complaint.UserID = id;
+
+                    c.Complaints.Add(complaint);
+                    c.SaveChanges();
+                    //email the company
+                    var companyEposta = c.Companies.Where(e => e.Case == true).Select(x => x.EMail).FirstOrDefault();
+                    if (companyEposta != null)
+                    {
+                        WebMail.SmtpServer = "smtp.gmail.com";
+                        WebMail.EnableSsl = true;
+                        WebMail.UserName = "elifsenacal99@gmail.com";
+                        WebMail.Password = "ElifSena00.";
+                        WebMail.SmtpPort = 587;
+                        WebMail.Send(companyEposta, "Yeni şikayet var", "Şikayet sayfanızı kontrol edeniz");
+                    }
+                
+                return RedirectToAction("Home", "Account");
+            }
+            catch (Exception)
             {
 
-
-                if (Request.Files.Count > 0)
-                {
-                    string fileName = Path.GetFileName(Request.Files[0].FileName);
-                    string _fileName = DateTime.Now.ToString("yymmssfff") + fileName;
-
-                    string path = "~/Document/" + _fileName;
-                    Request.Files[0].SaveAs(Server.MapPath(path));
-                    complaint.Document = "/Document/" + _fileName;
-
-
-                }
-                if (other != "")
-                {
-                    Company company = new Company();
-                    company.CompanyName = other;
-                
-
-                    c.Companies.Add(company);
-                    c.SaveChanges();
-
-                    complaint.CompanyID = company.CompanyID;
-
-                }
-                
-                complaint.Date = DateTime.Now;
-                complaint.UserID = id;
-
-                c.Complaints.Add(complaint);
-                c.SaveChanges();
-                //email the company
-                var companyEposta = c.Companies.Where(e => e.Case == true).Select(x => x.EPosta).FirstOrDefault();
-                if (companyEposta != null)
-                {
-                    WebMail.SmtpServer = "smtp.gmail.com";
-                    WebMail.EnableSsl = true;
-                    WebMail.UserName = "elifsenacal99@gmail.com";
-                    WebMail.Password = "ElifSena00.";
-                    WebMail.SmtpPort = 587;
-                    WebMail.Send(companyEposta, "Yeni şikayet var", "Şikayet sayfanızı kontrol edeniz");
-                }
+                return RedirectToAction("Home", "Account");
             }
-            return RedirectToAction("Index", "Home");
+          
         }
 
 
-        [OutputCache(Duration = 60)]
+    
         public ActionResult GetComplaintDetail(int id)
         {
-            var list = c.Complaints.Where(z => z.ComplaintID == id).Where(a => a.Case == true).ToList();
-            int d = list.Select(a => a.CompanyID).FirstOrDefault();
+            ModelView view = new ModelView();
+            view.complaints= c.Complaints.Where(z => z.ComplaintID == id).Where(a => a.Case == true).FirstOrDefault();
+
+
+            view.Comments = c.Comments.Where(e => e.ComplaintID == id).Where(f => f.Case == true).ToList();
+            view.Answer = c.Answers.Where(a => a.ComplaintID==id).FirstOrDefault();
+            var companyName = c.Answers.Where(e => e.ComplaintID==id).Select(b => b.Company.CompanyName).FirstOrDefault();
             var UserName = c.Comments.Where(e => e.ComplaintID == id).Where(f => f.Case == true).Select(a => a.User.UserNameSurname).ToList();
-            var CommentText = c.Comments.Where(e => e.ComplaintID == id).Where(f => f.Case == true).Select(a => a.Text).ToList();
-            var userImage = c.Comments.Where(e => e.ComplaintID == id).Where(f => f.Case == true).Select(a => a.User.UserImage).ToList();
-            ViewBag.CommentText = CommentText;
             ViewBag.UserCommentName = UserName;
-            ViewBag.UserImage = userImage;
-            var AnswerText = c.Answers.Where(e => e.CompanyID == d).Select(a => a.Text).FirstOrDefault();
-            var companyName = c.Answers.Where(e => e.CompanyID == d).Select(b => b.Company.CompanyName).FirstOrDefault();
-            var companyLogo = c.Answers.Where(e => e.CompanyID == d).Select(b => b.Company.CompanyLogo).FirstOrDefault();
-            ViewBag.CompanyAnswerText = AnswerText;
             ViewBag.companyName = companyName;
-            ViewBag.CompanyLogo = companyLogo;
 
-
-            return View(list);
+            return View(view);
         }
         [Authorize(Roles = "User")]
 
-        public ActionResult WriteaComments(int idUser, string text, int id2)
+        public ActionResult WriteaComments(Comment comment)
         {
-            Comment comment = new Comment();
-            comment.Text = text;
-            comment.UserID = idUser;
-            comment.ComplaintID = id2;
-            c.Comments.Add(comment);
-            c.SaveChanges();
-            return View();
+            try
+            {
+                
+                c.Comments.Add(comment);
+                c.SaveChanges();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+          
         }
         public ActionResult UserSpecificComplaint(int id)
         {

@@ -29,49 +29,46 @@ namespace Complaint.Controllers
         [HttpPost]
         public ActionResult SignUp(User user)
         {
-            if (!ModelState.IsValid)
+            try
+            {
+                c.Users.Add(user);
+                c.SaveChanges();
+
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
             {
 
-
-                return RedirectToAction("Index", "Home");
-
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
 
-
-            c.Users.Add(user);
-            c.SaveChanges();
-            ViewBag.Message = "Üyelik başarılı";
-            return RedirectToAction("Index", "Home");
+        
         }
 
-
-        [HttpGet]
-        public ActionResult Logın()
-        {
-            return View();
-        }
         [HttpPost]
 
-        public ActionResult Logın(User user)
+        public ActionResult Login(User user)
         {
             var value = c.Users.FirstOrDefault(x => x.EMail == user.EMail && x.UserPassword == user.UserPassword);
             if (value != null)
             {
+
                 int a = value.UserID;
+               
                 HttpCookie kt = new HttpCookie("user", a.ToString());
                 Response.Cookies.Add(kt);
                 ViewBag.UserID = kt;
                 FormsAuthentication.SetAuthCookie(value.UserNameSurname, false);
 
+              
 
+                
 
-                return RedirectToAction("Index", "Home");
+                return Json(new { success = true ,role=value.Role}, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                Response.Write("Bir şeyler yanlış");
-                System.Threading.Thread.Sleep(1000);
-                return RedirectToAction("Index", "Home");
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -80,7 +77,7 @@ namespace Complaint.Controllers
         {
             Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Home");
         }
         [HttpGet]
         public ActionResult PasswordReset()
@@ -105,15 +102,16 @@ namespace Complaint.Controllers
                 WebMail.SmtpPort = 587;
                 WebMail.Send(user.EMail, "Giriş Şifreniz", "Şifreniz: " + newPassword);
                 ViewBag.uyari = "Şifreniz başarıyla gönderildi";
-
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
 
 
             }
             else
             {
-                ViewBag.ss = "Harta";
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("Index", "Home");
+
+           
         }
         public ActionResult UserProfile(int id)
         {
@@ -146,7 +144,43 @@ namespace Complaint.Controllers
 
             profile.UserPassword = user.UserPassword;
             c.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Home");
+        }
+
+
+
+        public ActionResult Home()
+        {
+
+            var value1 = c.Users.Count().ToString();
+            ViewBag.v1 = value1;
+            var value2 = c.Companies.Where(x => x.Case == true).Count().ToString();
+            ViewBag.v2 = value2;
+            var value3 = c.Complaints.Where(x =>x.Result==true).Count().ToString();
+            
+
+            ViewBag.v3 = value3;
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult BrandRequest(Company company)
+        {
+
+            try
+            {
+                c.Companies.Add(company);
+                c.SaveChanges();
+                System.Threading.Thread.Sleep(1000);
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+          
         }
     }
 }

@@ -47,7 +47,7 @@ namespace complaint.Models
         [Required]
         [DisplayName("E-Mail")]
         [EmailAddress(ErrorMessage = "E-posta adresinizi düzgün giriniz")]
-        public string EPosta { get; set; }
+        public string EMail { get; set; }
         public bool Case { get; set; }
         [Column(TypeName = "Varchar")]
         [StringLength(150)]
@@ -66,7 +66,7 @@ namespace complaint.Models
         public Company()
         {
             NameSurname = "Kayıt Olmayan Şirket";
-            EPosta = "kayit@gmail.com";
+            EMail = "kayit@gmail.com";
             PhoneNumber = "Kayıt Olmayan Şirket";
         }
 

@@ -33,6 +33,8 @@ namespace complaint.Models
         [Required]
         [DisplayName("Başlık")]
         public string ComplaintTitle { get; set; }
+
+   
         public int CompanyID { get; set; }
 
 

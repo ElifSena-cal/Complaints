@@ -33,40 +33,42 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @{
+                                int i = 1;
+                                foreach (var a in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <label>@i</label>
+                                           
+                                        </td>
 
-
-                            @foreach (var a in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @a.CompanyID
-                                    </td>
-                                    
-                                    <th scope="row">
-                                        <div class="media align-items-center">
-                                            <a href="/Brand/BrandDetail/@a.CompanyID" class="avatar rounded-circle mr-3">
-                                                <img alt="@a.CompanyName" src="@a.CompanyLogo">
-                                            </a>
-                                            <div class="media-body">
-                                                <span class="mb-0 text-sm"> <a href="/Brand/BrandDetail/@a.CompanyID" style="color:white">@a.CompanyName</a> </span>
+                                        <th scope="row">
+                                            <div class="media align-items-center">
+                                                <a href="/Brand/BrandDetail/@a.CompanyID" class="avatar rounded-circle mr-3">
+                                                    <img alt="@a.CompanyName" src="@a.CompanyLogo">
+                                                </a>
+                                                <div class="media-body">
+                                                    <span class="mb-0 text-sm"> <a href="/Brand/BrandDetail/@a.CompanyID" style="color:white">@a.CompanyName</a> </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <span class="badge badge-dot mr-4">
-                                            @a.TotalComplaint
-                                        </span>
-                                    </td>
-                               
-                                    <td>
-                                        <span class="badge badge-dot mr-4">
-                                           @a.Dissolved
-                                        </span>
-                                    </td>
-                                </tr>
-                            }
+                                        </th>
+                                        <td>
+                                            <span class="badge badge-dot mr-4">
+                                                @a.TotalComplaint
+                                            </span>
+                                        </td>
 
-                           
+                                        <td>
+                                            <span class="badge badge-dot mr-4">
+                                                @a.Dissolved
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    i = i + 1;
+                                }
+
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -74,5 +76,5 @@
         </div>
     </div>
 </div>
-   
+
 

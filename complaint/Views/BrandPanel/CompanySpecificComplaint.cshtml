@@ -61,7 +61,7 @@
 
 
 
-                    </form>   <br /> <button class="btn btn-warning">Cevapla</button>
+                    </form>   <br /> <button class="btn btn-warning"id="answer",name="answer">Cevapla</button>
                 </div>
 
 
@@ -71,6 +71,28 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+
+        $('#answer').click(function () {
+            var Email = $('#EMail').val();
+            var UserPassword = $('#UserPassword').val();
+            if (Email == "" || UserPassword == "") {
+                toastr.info("Tüm alanları doldurunuz")
+                return;
+            }
+
+
+
+
+
+        
+
+
+
+        })
+    });
+</script>
 
 
 

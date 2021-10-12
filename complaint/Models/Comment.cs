@@ -14,10 +14,7 @@ namespace complaint.Models
         [Column(TypeName = "Varchar")]
         [StringLength(500)]
         public string Text { get; set; }
-        [Column(TypeName = "Varchar")]
-        [StringLength(200)]
-
-        public string Image { get; set; }
+     
         public int UserID { get; set; }
         public virtual User User{ get; set; }
         public int ComplaintID { get; set; }

@@ -38,10 +38,10 @@ namespace complaint.Controllers
 
             return Json(customers, JsonRequestBehavior.AllowGet);
         }
-        [OutputCache(Duration = 60)]
+       
         public ActionResult Top100()
         {
-            var list = c.Companies.ToList();
+            var list = c.Companies.OrderByDescending(a => a.Dissolved).Take(100).ToList();
             return View(list);
         }
 

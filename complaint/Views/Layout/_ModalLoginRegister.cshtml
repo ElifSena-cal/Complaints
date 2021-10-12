@@ -1,6 +1,11 @@
 ﻿@model complaint.Models.ModelView
 <!--Modal: Login / Signup Form-->
 <!--Signup-->
+
+
+<script src="~/Scripts/jquery-3.5.0.min.js"></script>
+
+
 <div class="modal fade" id="SignUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -10,29 +15,21 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            
-            @using (Html.BeginForm("SignUp", "Account", FormMethod.Post))
-            {
+            <div class="modal-body">
 
-                <div class="modal-body">
-                    <form action="kaydet.php" method="POST">
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <label>Ad-Soyad </label> @Html.ValidationMessageFor(x => x.User.UserNameSurname, "", new { @class = "text-danger" })
-                        @Html.TextBoxFor(x=>x.User.UserNameSurname,new { @class = "form-control", style = "border-radius:15px" })
-                        <label>E-Mail </label> @Html.ValidationMessageFor(x => x.User.EMail, "", new { @class = "text-danger" })
-                        @Html.TextBoxFor(x => x.User.EMail, new { @class = "form-control", style = "border-radius:15px", type = "email" })
-                        <label>Şifre </label>  @Html.ValidationMessageFor(x => x.User.UserPassword, "", new { @class = "text-danger" })
-                        @Html.TextBoxFor(x => x.User.UserPassword, new { @class = "form-control", style = "border-radius:15px", type = "password" })
-                        <br>
-                        <button type="submit" class="btn btn-success btn-block">
-                            Üye OL
-                        </button>
-                    </form>
-                </div>
-            }
+                <label>Ad-Soyad</label>
+                <input type="text" name="UserNameSurname1" id="UserNameSurname1" class="form-control" style="border-radius:15px" />
+                <br />
+                <label>E-posta</label>
+                <input type="email" name="EMail1" id="EMail1" class="form-control" style="border-radius:15px" />
+                <br />
+                <label>Şifre</label>
+                <input type="password" name="UserPassword1" id="UserPassword1" class="form-control" style="border-radius:15px" />
+                <br />
+                <button type="button" name="signUp_button" id="signUp_button" class="btn btn-success btn-block" style="border-radius:30px">Üye Ol</button>
+            </div>
+
         </div>
-
     </div>
 </div>
 
@@ -48,36 +45,24 @@
             </div>
 
 
-            @using (Html.BeginForm("Logın", "Account", FormMethod.Post))
-            {
 
-                <div class="modal-body">
 
-                    <form action="giris.php" method="POST">
-                        <div class="form-group">
-                            @Html.AntiForgeryToken()
-                            @Html.HiddenFor(x => x.User.UserID)
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <label>E-Mail</label>
-                            @Html.TextBoxFor(x => x.User.EMail, new { @class = "form-control", style = "border-radius:15px", type = "email", id = "username" })
-                        </div>
-                        <div class="form-group">
-                            <label>Şifre</label>
-                            @Html.TextBoxFor(x => x.User.UserPassword, new { @class = "form-control", style = "border-radius:15px", type = "password", id = "password" })
-                        </div>
-
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success btn-block" style="border-radius:30px" id="loginError">Giriş Yap</button>
-                        </div>
-                        @ViewBag.Message
-                        <div class="form-group">
-                            Hesabınız yok mu ?<a href="SignUp" data-toggle="modal" data-target="#SignUp" data-dismiss="modal" class="btn btn-link"><span aria-hidden="true">Üye Ol</span></a>
-                            <a href="#" data-toggle="modal" data-target="#ForgetPassword" data-dismiss="modal" class="btn btn-link" style="margin-left: 15%;">Şifremi Unuttum</a>
-                        </div>
-                    </form>
-
+            <div class="modal-body">
+                <label>E-posta</label>
+                <input type="email" name="EMail" id="EMail" class="form-control" style="border-radius:15px" />
+                <br />
+                <label>Şifre</label>
+                <input type="password" name="UserPassword" id="UserPassword" class="form-control" style="border-radius:15px" />
+                <br />
+                <button type="button" name="login_button" id="login_button" class="btn btn-success btn-block" style="border-radius:30px">Giriş Yap</button>
+                <div class="form-group">
+                    Hesabınız yok mu ?<a href="SignUp" data-toggle="modal" data-target="#SignUp" data-dismiss="modal" class="btn btn-link"><span aria-hidden="true">Üye Ol</span></a>
+                    <a href="#" data-toggle="modal" data-target="#ForgetPassword" data-dismiss="modal" class="btn btn-link" style="margin-left: 15%;">Şifremi Unuttum</a>
                 </div>
-            }
+
+
+            </div>
+
 
         </div>
     </div>
@@ -93,17 +78,16 @@
                 </button>
             </div>
 
-            @using (Html.BeginForm("PasswordReset", "Account"))
-            {
-                @Html.HiddenFor(x => x.User.UserID)
-                <div class="modal-body">
-                    <form action="#" method="POST">
-                        <label>Şifre yenileme için giriş yaptığınız e-posta adresini giriniz.</label>
-                        @Html.TextBoxFor(x => x.User.EMail, new { @class = "form-control", style = "border-radius:15px", type = "email" })
-                        <br>
-                        <button class="btn btn-success btn-block" style="border-radius:30px">Devam Et</button>
-                    </form>
-                </div>}
+            <div class="modal-body">
+
+                <label>Şifre yenileme için giriş yaptığınız e-posta adresini giriniz.</label>
+
+                <input type="email" name="EMailForget" id="EMailForget" class="form-control" style="border-radius:15px" />
+                <br />
+                <br>
+                <button class="btn btn-success btn-block" style="border-radius:30px" id="ForgetPassword_button" name="ForgetPassword_button">Devam Et</button>
+
+            </div>
         </div>
     </div>
 </div>
@@ -116,33 +100,195 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            @using (Html.BeginForm("Index", "BrandPanel", FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
-                @Html.HiddenFor(x => x.Companies.CompanyID)
-                <div class="modal-body">
 
-                    <form action="giris.php" method="POST">
-                        <div class="form-group">
 
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <label>E-Mail</label>
-                            @Html.TextBoxFor(x => x.Companies.EPosta, new { @class = "form-control", style = "border-radius:15px", type = "email", id = "EPosta" })
-                        </div>
-                        <div class="form-group">
-                            <label>Şifre</label>
-                            @Html.TextBoxFor(x => x.Companies.CompanyPassword, new { @class = "form-control", style = "border-radius:15px", type = "password", id = "CompanyPassword" })
-                        </div>
+            <div class="modal-body">
 
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success btn-block" style="border-radius:30px">Giriş Yap</button>
-                        </div>
-                    </form>
-                </div>
-            }
+                <label>E-posta</label>
+                <input type="email" name="EMailBrand" id="EMailBrand" class="form-control" style="border-radius:15px" />
+                <br />
+                <label>Şifre</label>
+                <input type="password" name="CompanyPassword" id="CompanyPassword" class="form-control" style="border-radius:15px" />
+                <br />
+                <button type="button" name="loginbrand_button" id="loginbrand_button" class="btn btn-success btn-block" style="border-radius:30px">Giriş Yap</button>
+            </div>
+
 
 
 
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+
+        $('#ForgetPassword_button').click(function () {
+            var Email = $('#EMailForget').val();
+
+            if (Email == "") {
+                toastr.info(" E-Posta alanını doldurunuz")
+                return;
+            }
+
+
+
+
+
+            $.ajax({
+                type: 'Post',
+                url: "/Account/PasswordReset",
+                data: { Email },
+
+                success: function (data) {
+
+                    if (data.success) {
+
+                        toastr.success("Lütfen mail adresinizi kontrol ediniz")
+
+
+                    }
+                    else {
+                        toastr.error("Lütfen mail adresinizi doğru yazdığınızdan emin olun.")
+                    }
+                },
+                error: function () {
+                    toastr.error("Bir şeyler yanlış gözüküyor.")
+                }
+
+            });
+
+
+
+        })
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        $('#login_button').click(function () {
+            var Email = $('#EMail').val();
+            var UserPassword = $('#UserPassword').val();
+            if (Email == "" || UserPassword == "") {
+                toastr.info("Tüm alanları doldurunuz")
+                return;
+            }
+
+
+
+
+
+            $.ajax({
+                type: 'Post',
+                url: "/Account/Login",
+                data: { Email, UserPassword },
+
+                success: function (data) {
+
+                    if (data.success) {
+
+                        if (data.role == "Admin") {
+                            window.location.href = "/Admin/Index"
+                        }
+                        else if (data.role=="User") {
+                            window.location.href = "/Account/Home"
+                        }
+
+                        
+                    }
+                    else {
+                        toastr.error("Lütfen giriş bilgilerinizi kontrol edeniz.")
+                    }
+
+                },
+                error: function () {
+                    toastr.error("Bir şeyler yanlış gözüküyor.")
+                }
+
+            });
+
+
+
+        })
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        $('#loginbrand_button').click(function () {
+            var Email = $('#EMailBrand').val();
+            var CompanyPassword = $('#CompanyPassword').val();
+            if (Email == "" || CompanyPassword == "") {
+                toastr.info("Tüm alanları doldurunuz")
+                return;
+            }
+
+
+
+
+
+            $.ajax({
+                type: 'Post',
+                url: "/BrandPanel/Index",
+                data: { Email, CompanyPassword },
+
+                success: function (data) {
+
+                    if (data.success) {
+                        window.location.href = "/BrandPanel/Index"
+                    }
+                    else {
+                        toastr.error("Lütfen giriş bilgilerinizi kontrol edeniz.")
+                    }
+                },
+                error: function () {
+                    toastr.error("Bir şeyler yanlış gözüküyor.")
+                }
+
+            });
+
+
+
+        })
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        $('#signUp_button').click(function () {
+            var Email = $('#EMail1').val();
+            var UserPassword = $('#UserPassword1').val();
+            var UserNameSurname = $('#UserNameSurname1').val();
+            if (Email == "" || UserPassword == "" || UserNameSurname == "") {
+                toastr.info("Tüm alanları doldurunuz")
+                return;
+            }
+
+
+
+
+
+            $.ajax({
+                type: 'Post',
+                url: "/Account/SignUp",
+                data: { Email, UserPassword, UserNameSurname },
+
+                success: function (data) {
+
+                    if (data.success) {
+                        window.location.href = "/Account/Home"
+                    }
+                    else {
+                        toastr.error("Bir şeyler yanlış gözüküyor.")
+                    }
+                },
+                error: function () {
+                    toastr.error("Bir şeyler yanlış gözüküyor.")
+                }
+
+            });
+
+
+
+        })
+    });
+</script>

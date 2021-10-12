@@ -13,13 +13,14 @@ namespace complaint.Controllers
     {
         // GET: BrandPanel
         Context c = new Context();
+        [HttpPost]
         public ActionResult Index(Company Companies)
         {
-            var brandName = c.Companies.Where(a => a.EPosta == Companies.EPosta && a.CompanyPassword == Companies.CompanyPassword).FirstOrDefault();
+            var brandName = c.Companies.Where(a => a.EMail == Companies.EMail && a.CompanyPassword == Companies.CompanyPassword).FirstOrDefault();
              
             if (brandName == null)
             {
-                return RedirectToAction("Index", "Home");
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
          
             int ıd = brandName.CompanyID;
@@ -33,6 +34,11 @@ namespace complaint.Controllers
 
             var totalSolution = c.Complaints.Where(a => a.CompanyID==brandName.CompanyID).Count().ToString();
             ViewBag.totalSolution = totalSolution;
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        }
+       [HttpGet] 
+       public ActionResult Index()
+        {
             return View();
         }
         public ActionResult GetComplaint(int id)
@@ -55,7 +61,7 @@ namespace complaint.Controllers
             answer.CompanyID = CompanyID;
             answer.ComplaintID = ComplaintID;
             c.Answers.Add(answer);
-
+         
 
             c.SaveChanges();
 
@@ -87,7 +93,7 @@ namespace complaint.Controllers
 
 
             profile.CompanyName = company.CompanyName;
-            profile.EPosta = company.EPosta;
+            profile.EMail = company.EMail;
 
 
             profile.CompanyPassword = company.CompanyPassword;
@@ -98,7 +104,7 @@ namespace complaint.Controllers
         {
             Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Home", "Account");
         }
         public ActionResult AnsweredComplaints(int id)
         {

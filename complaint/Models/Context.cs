@@ -18,7 +18,7 @@ namespace complaint.Models
         public DbSet<Company> Companies { get; set; }
         public DbSet<Complaints> Complaints { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Admin> Admins { get; set; }
+      
 
 
 

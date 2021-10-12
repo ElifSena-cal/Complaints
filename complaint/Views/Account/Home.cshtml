@@ -1,12 +1,8 @@
 ﻿@model complaint.Models.Company
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Home";
     Layout = "~/Views/Layout/_HomeLayout.cshtml";
 }
-
-
-
 
 <section id="hero">
     <div class="hero-container">
@@ -74,42 +70,80 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            @using (Html.BeginForm("BrandRequest", "Home", FormMethod.Post))
-            {
-                <div class="modal-body">
-                    <form action="kaydet.php" method="POST">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.AntiForgeryToken()
-                        <label>Ad-Soyad</label>  @Html.ValidationMessageFor(x => x.NameSurname, "", new { @class = "text-danger" })
-                        @Html.TextBoxFor(x => x.NameSurname, new { @class = "form-control", style = "border-radius:15px" })
+            
+            <div class="modal-body">
+                <label>Ad-Soyad</label>
+                <input type="text" name="NameSurname" id="NameSurname" class="form-control" style="border-radius:15px" />
+                <br />
+                <label>Şirket</label>
+                <input type="text" name="CompanyName" id="CompanyName" class="form-control" style="border-radius:15px" />
+                <br />
+                <label>Telefon Numarası</label>
+                <input type="tel" name="PhoneNumber" id="PhoneNumber" class="form-control" style="border-radius:15px" />
+                <br />
+                <label>E-Posta</label>
+                <input type="email" name="EMail2" id="EMail2" class="form-control" style="border-radius:15px" />
+                <br />
+                <label>Web Sitesi</label>
+                <input type="url" name="WebUrl" id="WebUrl" class="form-control" style="border-radius:15px" />
+                <br />
+                
+                <button type="submit" class="btn btn-success btn-block" style="border-radius:30px" id="signup_button">Üye OL</button>
 
-                        <br />
-                        <label>Şirket</label>   @Html.ValidationMessageFor(x => x.CompanyName, "", new { @class = "text-danger" })
-                        @Html.TextBoxFor(x => x.CompanyName, new { @class = "form-control", style = "border-radius:15px" })
-
-                        <br />
-                        <label>Telefon</label>  @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger" })
-                        @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control", style = "border-radius:15px" })
-
-                        <br />
-                        <label>E-Mail</label>  @Html.ValidationMessageFor(x => x.EPosta, "", new { @class = "text-danger" })
-                        @Html.TextBoxFor(x => x.EPosta, new { @class = "form-control", style = "border-radius:15px", type = "email" })
-
-                        <br />
-                        <label>Web Sitesi</label>
-                        @Html.TextBoxFor(x => x.WebUrl, new { @class = "form-control", style = "border-radius:15px" })
-
-                        <br>
-                        <button type="submit" class="btn btn-success btn-block" style="border-radius:30px">Üye OL</button>
-                    </form>
-                </div>
-            }
+            </div>
+            
         </div>
     </div>
 
 
 </div>
+<script>
+    $(document).ready(function () {
 
+        $('#signup_button').click(function () {
+            var NameSurname = $('#NameSurname').val();
+            var CompanyName = $('#CompanyName').val();
+            var PhoneNumber = $('#PhoneNumber').val();
+            var EMail = $('#EMail2').val();
+            var WebUrl = $('#WebUrl').val();
+
+            if (CompanyName == "" || NameSurname == ""  || EMail=="") {
+                toastr.info("Tüm alanları doldurunuz")
+                return;
+            }
+
+
+
+
+
+            $.ajax({
+                type: 'Post',
+                url: "/Account/BrandRequest",
+                data: { NameSurname, CompanyName, PhoneNumber, EMail, WebUrl },
+
+                success: function (data) {
+
+                    if (data.success) {
+                        setTimeout(toastr.success("Bilgilerinizi aldık en kısa sürede sizinle iletişime geçilecek."), 1000);
+                        window.location.href = "/Account/Home"
+                        
+                        
+                    }
+                    else {
+                        toastr.error("Bir şeyler yanlış gözüküyor.")
+                    }
+                },
+                error: function () {
+                    toastr.error("Bir şeyler yanlış gözüküyor.")
+                }
+
+            });
+
+
+
+        })
+    });
+</script>
 
 
 

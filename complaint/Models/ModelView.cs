@@ -11,9 +11,11 @@ namespace complaint.Models
 
         public Company Companies { get; set; }
         public List<Complaints> Complaints { get; set; }
-
+        public Complaints complaints { get; set; }
         public User User { get; set; }
- 
+        public List<Comment> Comments { get; set; }
+        public Answer Answer { get; set; }
+
 
     }
 }

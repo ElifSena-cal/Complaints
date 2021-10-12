@@ -1,144 +1,189 @@
-﻿@using complaint.Models
-@model List<Complaints>
+﻿@model complaint.Models.ModelView
 @{
     ViewBag.Title = "GetComplaintDetail";
     Layout = "~/Views/Layout/_Layout.cshtml";
 }
 <link href="~/assets/css/styleComplaint.css?v=1" rel="stylesheet" />
-@foreach (var a in Model)
-{
-    <section id="facts" style="background-color:white;">
-        <h2 class="complaint-title">@a.ComplaintTitle</h2>
-        <hr />
-     </section>
+<script src="~/Scripts/jquery-3.5.0.min.js"></script>
+<section id="facts" style="background-color:white;">
+    <h2 class="complaint-title">@Model.complaints.ComplaintTitle</h2>
+    <hr />
+</section>
 
 
-    <div class="container">
-        <div class="be-comment-block">
+<div class="container">
+    <div class="be-comment-block">
+
+        <div class="be-comment">
+            <div class="be-img-comment">
+
+                <img src="@Model.complaints.User.UserImage" alt="" class="be-ava-comment">
+
+            </div>
+            <div class="be-comment-content">
+
+                <span class="be-comment-name">
+                    <a href="#">@Model.complaints.User.UserNameSurname</a>
+                </span>
+                <span class="be-comment-time">
+                    <i class="fa fa-clock-o"></i>
+                    @Model.complaints.Date
+                </span>
+
+                <p class="be-comment-text" style="word-break:break-word">
+                    @Model.complaints.ComplainDetail
+                    @if (Model.complaints.Document != null)
+                    {
+                        <div class="img-rounded">
+                            <img src="@Model.complaints.Document" alt="" class="w3-imag" style="width:500px;height:400px">
+                        </div>
+                    }
+                </p>
+
+
+
+
+
+
+            </div>
+        </div>
+
+        @if (ViewBag.companyName != null)
+        {
 
             <div class="be-comment">
                 <div class="be-img-comment">
-
-                    <img src="@a.User.UserImage" alt="" class="be-ava-comment">
-
+                    <a href="#">
+                        <img src="@Model.Answer.Company.CompanyLogo" alt="" class="be-ava-comment">
+                    </a>
                 </div>
                 <div class="be-comment-content">
-
                     <span class="be-comment-name">
-                        <a href="blog-detail-2.html">@a.User.UserNameSurname</a>
-                    </span>
-                    <span class="be-comment-time">
-                        <i class="fa fa-clock-o"></i>
-                        @a.Date
+                        <a href="#">@Model.Answer.Company.CompanyName</a>
                     </span>
 
                     <p class="be-comment-text" style="word-break:break-word">
-                        @a.ComplainDetail
-                        @if (a.Document != null)
-                        {
-                            <div class="img-rounded">
-                                <img src="@a.Document" alt="" class="w3-imag" style="width:500px;height:400px">
-                            </div>
-                        }
+                        @Model.Answer.Text
                     </p>
-
-
-
-
-
-
                 </div>
             </div>
+        }
+        @if (@ViewBag.UserCommentName != null)
+        {
 
-            @if (ViewBag.companyName != null)
+
+            foreach (var a in Model.Comments)
             {
+
+
+
 
                 <div class="be-comment">
                     <div class="be-img-comment">
-                        <a href="blog-detail-2.html">
-                            <img src="@ViewBag.CompanyLogo" alt="" class="be-ava-comment">
+                        <a href="#">
+                            <img src="@a.User.UserImage" alt="" class="be-ava-comment">
                         </a>
                     </div>
+
                     <div class="be-comment-content">
                         <span class="be-comment-name">
-                            <a href="blog-detail-2.html">@ViewBag.companyName</a>
+
+                            <a href="#">@a.User.UserNameSurname</a>
+
                         </span>
 
                         <p class="be-comment-text" style="word-break:break-word">
-                            @ViewBag.CompanyAnswerText
+                            @a.Text
                         </p>
                     </div>
                 </div>
-            }
-            @if (@ViewBag.UserCommentName != null)
-            {
-                {
-                    int i = 0;
-                    foreach (var UserText in ViewBag.CommentText)
-                    {
-
-
-
-
-                        <div class="be-comment">
-                            <div class="be-img-comment">
-                                <a href="blog-detail-2.html">
-                                    <img src="@ViewBag.UserImage[@i]" alt="" class="be-ava-comment">
-                                </a>
-                            </div>
-
-                            <div class="be-comment-content">
-                                <span class="be-comment-name">
-
-                                    <a href="blog-detail-2.html">@ViewBag.UserCommentName[@i]</a>
-
-                                </span>
-
-                                <p class="be-comment-text" style="word-break:break-word">
-                                    @UserText
-                                </p>
-                            </div>
-                        </div>
-                        i = i + 1;
-                    }
-
-                }
-
 
             }
 
 
-            @if (User.IsInRole("User"))
-            {
-                using (Html.BeginForm("WriteaComments", "Complaint", FormMethod.Post))
-                {
-                    if (User.Identity.IsAuthenticated)
-                    {
-                        @Html.Hidden("idUser", Request.Cookies["user"].Value)
-                    }
-
-                    @Html.Hidden("id2", a.ComplaintID)
-                    <form class="form-block">
-                        <div class="row">
-
-                            <div class="form-group">
-                                @Html.TextArea("text", new { @class = "form-control", cols = "130", style = "margin-left:5%; height:120px;", placeholder = "Yorumunuz", id = "txtInput" })
-                            </div>
 
 
-                            <button class="btn btn-primary pull-right" style="margin-left:92%;" id="btnInput">Gönder</button>
-                        </div>
-                    </form>
+        }
 
 
-                }
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.Hidden("idUser", Request.Cookies["user"].Value)
 
 
-            }
 
-        </div>
+
+            @Html.Hidden("id2", Model.complaints.ComplaintID)
+
+            <div class="row">
+
+
+
+                @Html.TextArea("text", new { @class = "form-control", cols = "130", style = "margin-left:5%; height:120px;", placeholder = "Yorumunuz", id = "txtInput", name = "txtInput" })
+
+
+                <button class="btn btn-primary" id="send" name="send" style="margin-top:1%; margin-left:92%">Gönder</button>
+
+            </div>
+
+
+
+
+
+        }
+
+
+
     </div>
-}
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#send').click(function () {
+            var Text = $('#txtInput').val();
+            var UserID = $('#idUser').val();
+            var ComplaintID = $('#id2').val();
+
+            if (Text == "" || UserID == "" || ComplaintID == "") {
+               
+                toastr.info("Her şeyin doğru olduğundan emin olun.")
+                return;
+            }
+
+
+
+
+
+            $.ajax({
+                type: 'Post',
+                url: "/Complaint/WriteaComments",
+                data: { Text, UserID, ComplaintID},
+
+                success: function (data) {
+
+                    if (data.success) {
+
+                        toastr.success("Yorumunuzu aldık")
+
+
+                    }
+                    else {
+                        toastr.error("Her şeyin doğru olduğundan emin olun.")
+                    }
+
+                },
+                error: function () {
+                    toastr.error("Bir şeyler yanlış gözüküyor.")
+                }
+
+            });
+
+
+
+        })
+    });
+</script>
 
 
 
